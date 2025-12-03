@@ -50,7 +50,7 @@ gcloud compute images list --project=ubuntu-os-cloud --no-standard-images --filt
 #### Configure
 ```
 sudo -i
-bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_master.sh)
+bash <(curl -s https://raw.githubusercontent.com/Sawsqr68/cks-course-environment/master/cluster-setup/latest/install_master.sh)
 ```
 
 ### Setup cks-worker
@@ -79,7 +79,7 @@ gcloud compute images list --project=ubuntu-os-cloud --no-standard-images --filt
 #### Configure
 ```
 sudo -i
-bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_worker.sh)
+bash <(curl -s https://raw.githubusercontent.com/Sawsqr68/cks-course-environment/master/cluster-setup/latest/install_worker.sh)
 ```
 
 ### Connect to cluster
