@@ -398,7 +398,7 @@ sudo cp -i /etc/kubernetes/admin.conf ~/.kube/config
 
 
 ### CNI
-kubectl apply -f https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/weave.yaml
+kubectl apply -f https://raw.githubusercontent.com/Sawsqr68/cks-course-environment/master/cluster-setup/weave.yaml
 echo "Waiting for weave-net to be ready..."
 sleep 10
 kubectl -n kube-system wait --for=condition=Ready pod -l name=weave-net --timeout=3600s
