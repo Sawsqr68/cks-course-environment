@@ -25,7 +25,7 @@ if ! command -v gcloud &> /dev/null; then
 fi
 
 # Check if user is authenticated
-if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" &> /dev/null; then
+if [ -z "$(gcloud auth list --filter=status:ACTIVE --format="value(account)" 2>/dev/null)" ]; then
     echo "Error: No active gcloud authentication found"
     echo "Please run: gcloud auth login"
     exit 1
@@ -46,7 +46,7 @@ echo
 if gcloud compute firewall-rules describe nodeports &> /dev/null; then
     echo "Firewall rule 'nodeports' already exists"
     echo "Current configuration:"
-    gcloud compute firewall-rules describe nodeports --format="value(allowed[].ports)"
+    gcloud compute firewall-rules describe nodeports --format="table(allowed[].IPProtocol:label=PROTOCOL,allowed[].ports:label=PORTS)"
     echo
     read -p "Do you want to delete and recreate it? (y/N): " -n 1 -r
     echo
