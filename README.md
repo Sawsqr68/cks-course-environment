@@ -100,3 +100,4 @@ gcloud compute ssh cks-master
 ```
 gcloud compute firewall-rules create nodeports --allow tcp:30000-40000
 ```
+gcloud compute firewall-rules create nodeports --allow tcp:30000-40000
