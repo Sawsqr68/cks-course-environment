@@ -47,9 +47,4 @@ resource "google_compute_instance" "cks_master" {
   metadata = {
     enable-oslogin = "true"
   }
-
-  metadata_startup_script = <<-EOF
-    #!/bin/bash
-    echo "VM created successfully - ready for cks-master setup"
-  EOF
 }
