@@ -97,6 +97,19 @@ gcloud compute ssh cks-master
 ```
 
 ### Open ports
+
+#### Using the setup script (recommended)
+```
+bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/setup_gcp_firewall.sh)
+```
+
+Or locally:
+```
+cd cluster-setup
+./setup_gcp_firewall.sh
+```
+
+#### Manual setup
 ```
 gcloud compute firewall-rules create nodeports --allow tcp:30000-40000
 ```

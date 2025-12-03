@@ -72,8 +72,13 @@ bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environmen
 
 ### Practice - Firewall rules for NodePorts
 ```
+# Using the setup script (recommended)
+bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/setup_gcp_firewall.sh)
+
+# Or manually:
 gcloud compute firewall-rules create nodeports --allow tcp:30000-40000
 ```
+
 
 ## Foundation - Kubernetes Secure Architecture
 ```
