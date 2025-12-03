@@ -24,6 +24,27 @@ https://killer.sh/support
 
 ## Setup Cluster in Gcloud
 
+### Automated VM Creation
+
+For automated VM creation, you can use the provided infrastructure automation tools:
+
+**Option 1: Using Terraform**
+```bash
+cd infrastructure/gcp
+terraform init
+terraform apply -var="project_id=YOUR_PROJECT_ID"
+```
+
+**Option 2: Using the Shell Script**
+```bash
+cd infrastructure/gcp
+./create-vm.sh
+```
+
+See [infrastructure/gcp/README.md](infrastructure/gcp/README.md) for detailed instructions.
+
+### Manual VM Creation
+
 ### Setup cks-master
 
 #### Create VM
