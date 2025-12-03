@@ -42,17 +42,23 @@ gcloud compute instances list # should be empty right now
 # not necessary if created using the browser interface
 gcloud compute instances create cks-master --zone=europe-west3-c \
 --machine-type=e2-medium \
---image=ubuntu-2004-focal-v20220419 \
+--image=ubuntu-2404-noble-amd64-v20250530 \
 --image-project=ubuntu-os-cloud \
 --boot-disk-size=50GB
+
+# see available images:
+gcloud compute images list --project=ubuntu-os-cloud --no-standard-images --filter="name~'ubuntu-2404'"
 
 # CREATE cks-worker VM using gcloud command
 # not necessary if created using the browser interface
 gcloud compute instances create cks-worker --zone=europe-west3-c \
 --machine-type=e2-medium \
---image=ubuntu-2004-focal-v20220419 \
+--image=ubuntu-2404-noble-amd64-v20250530 \
 --image-project=ubuntu-os-cloud \
 --boot-disk-size=50GB
+
+# see available images:
+gcloud compute images list --project=ubuntu-os-cloud --no-standard-images --filter="name~'ubuntu-2404'"
 
 # you can use a region near you
 https://cloud.google.com/compute/docs/regions-zones

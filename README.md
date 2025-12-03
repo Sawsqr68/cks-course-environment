@@ -31,7 +31,7 @@ https://killer.sh/support
 1. create VM:
 name: cks-master
 family: e2-medium (2vCPU, 4GB)
-image: ubuntu24.04 LTS focal
+image: ubuntu24.04 LTS noble
 disk: 50GB
 ```
 
@@ -60,7 +60,7 @@ bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environmen
 1. create VM:
 name: cks-worker
 family: e2-medium (2vCPU, 4GB)
-image: ubuntu24.04 LTS focal
+image: ubuntu24.04 LTS noble
 disk: 50GB
 ```
 
