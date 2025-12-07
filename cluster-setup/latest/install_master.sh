@@ -22,7 +22,7 @@ fi
 
 
 ### get platform
-PLATFORM=`uname -p`
+PLATFORM=$(uname -p)
 
 if [ "${PLATFORM}" == "aarch64" ]; then
   PLATFORM="arm64"
@@ -36,7 +36,8 @@ fi
 
 
 ### set hostname to the first part before the first dot
-short_hostname=$(hostname | cut -d. -f1)
+short_hostname=$(hostname)
+short_hostname=${short_hostname%%.*}
 hostnamectl set-hostname "$short_hostname"
 
 
@@ -71,8 +72,7 @@ systemctl daemon-reload
 
 ### install podman
 . /etc/os-release
-sudo apt-get update
-sudo apt-get -y install podman
+apt-get -y install podman
 cat > /etc/containers/registries.conf <<EOF
 unqualified-search-registries = ["docker.io"]
 
@@ -92,52 +92,35 @@ EOF
 
 
 ### k8s
-apt-get update
 apt-get install -y apt-transport-https ca-certificates
 mkdir -p /etc/apt/keyrings
 rm /etc/apt/keyrings/kubernetes-1-32-apt-keyring.gpg || true
 rm /etc/apt/keyrings/kubernetes-1-31-apt-keyring.gpg || true
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-1-32-apt-keyring.gpg
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-1-31-apt-keyring.gpg
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-1-32-apt-keyring.gpg
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-1-31-apt-keyring.gpg
 echo > /etc/apt/sources.list.d/kubernetes.list
-echo "deb [signed-by=/etc/apt/keyrings/kubernetes-1-32-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-echo "deb [signed-by=/etc/apt/keyrings/kubernetes-1-31-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-1-32-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /" | tee -a /etc/apt/sources.list.d/kubernetes.list
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-1-31-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /" | tee -a /etc/apt/sources.list.d/kubernetes.list
 apt-get --allow-unauthenticated update
 apt-get --allow-unauthenticated install -y containerd kubelet=${KUBE_VERSION}-1.1 kubeadm=${KUBE_VERSION}-1.1 kubectl=${KUBE_VERSION}-1.1 kubernetes-cni
 
 
 
 ### configure containerd
-cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
+cat <<EOF | tee /etc/modules-load.d/containerd.conf
 overlay
 br_netfilter
 EOF
-sudo modprobe overlay
-sudo modprobe br_netfilter
-cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+modprobe overlay
+modprobe br_netfilter
+cat <<EOF | tee /etc/sysctl.d/99-kubernetes-cri.conf
 net.bridge.bridge-nf-call-iptables  = 1
 net.ipv4.ip_forward                 = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
-sudo sysctl --system
-sudo mkdir -p /etc/containerd
+sysctl --system
+mkdir -p /etc/containerd
 
-
-
-### containerd
-cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
-overlay
-br_netfilter
-EOF
-sudo modprobe overlay
-sudo modprobe br_netfilter
-cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
-net.bridge.bridge-nf-call-iptables  = 1
-net.ipv4.ip_forward                 = 1
-net.bridge.bridge-nf-call-ip6tables = 1
-EOF
-sudo sysctl --system
-sudo mkdir -p /etc/containerd
 
 
 ### containerd config
@@ -369,7 +352,7 @@ EOF
 
 ### crictl uses containerd as default
 {
-cat <<EOF | sudo tee /etc/crictl.yaml
+cat <<EOF | tee /etc/crictl.yaml
 runtime-endpoint: unix:///run/containerd/containerd.sock
 EOF
 }
@@ -394,7 +377,7 @@ rm /root/.kube/config || true
 kubeadm init --kubernetes-version=${KUBE_VERSION} --ignore-preflight-errors=NumCPU --skip-token-print --pod-network-cidr 192.168.0.0/16
 
 mkdir -p ~/.kube
-sudo cp -i /etc/kubernetes/admin.conf ~/.kube/config
+cp -i /etc/kubernetes/admin.conf ~/.kube/config
 
 
 ### CNI

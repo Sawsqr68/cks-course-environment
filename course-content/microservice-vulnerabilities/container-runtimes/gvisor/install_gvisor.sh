@@ -4,8 +4,8 @@
 
 
 # gvisor
-sudo apt-get update && \
-sudo apt-get install -y \
+apt-get update && \
+apt-get install -y \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -25,7 +25,7 @@ sudo apt-get install -y \
     -c containerd-shim-runsc-v1.sha512
   rm -f *.sha512
   chmod a+rx runsc containerd-shim-runsc-v1
-  sudo mv runsc containerd-shim-runsc-v1 /usr/local/bin
+  mv runsc containerd-shim-runsc-v1 /usr/local/bin
 )
 
 
